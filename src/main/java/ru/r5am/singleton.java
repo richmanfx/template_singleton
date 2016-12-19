@@ -12,32 +12,53 @@ package ru.r5am;
 class SingletonUse {
     public static void main(String[] args) {
 
+        /**
+         * Синглтон1
+         */
         // Первый экземпляр Синглтона1
         Singleton1 firstInstanceSingleton1 = Singleton1.getInstance();
         System.out.println(firstInstanceSingleton1.toString());
 
         // Второй экземпляр Синглтона1
-//        Singleton1 secondInstanceSingleton1 = Singleton1.getInstance();      // Раскомментировать - ошибка, второй экземпляр.
+        // Раскомментировать - ошибка, второй экземпляр.
+//        Singleton1 secondInstanceSingleton1 = Singleton1.getInstance();
 //        System.out.println(secondInstanceSingleton1.toString());
 
-
-        // Первый экземпляр Синглетона2
+        /**
+         * Синглтон2
+         */
+        // Первый экземпляр Синглтона2
         Singleton2 firstInstanceSingleton2 = Singleton2.getInstance();
         System.out.println(firstInstanceSingleton2.toString());
 
         // Второй экземпляр Синглтона2
-        Singleton2 secondInstanceSingleton2 = Singleton2.getInstance();      // Раскомментировать - получим тот же первый объект.
+        // Раскомментировать - получим тот же первый объект.
+        Singleton2 secondInstanceSingleton2 = Singleton2.getInstance();
         System.out.println(secondInstanceSingleton2.toString());
 
-
-        // Первый экземпляр Синглетона3
+        /**
+         * Синглтон3
+         */
+        // Первый экземпляр Синглтона3
         Singleton3 firstInstanceSingleton3 = Singleton3.getInstance();
         System.out.println(firstInstanceSingleton3.toString());
 
         // Второй экземпляр Синглтона3
-//        Singleton3 secondInstanceSingleton3 = Singleton3.getInstance();      // Раскомментировать - ошибка, второй экземпляр.
+        // Раскомментировать - ошибка, второй экземпляр.
+//        Singleton3 secondInstanceSingleton3 = Singleton3.getInstance();
 //        System.out.println(secondInstanceSingleton3.toString());
 
+        /**
+         * Синглтон4
+         */
+        // Первый экземпляр Синглтона4
+        Singleton4 firstInstanceSingleton4 = Singleton4.getInstance();
+        System.out.println(firstInstanceSingleton4.toString());
+
+        // Второй экземпляр Синглтона4
+        // Раскомментировать - получим тот же первый объект.
+        Singleton4 secondInstanceSingleton4 = Singleton4.getInstance();
+        System.out.println(secondInstanceSingleton4.toString());
     }
 
 
@@ -90,16 +111,39 @@ class SingletonUse {
      */
     private static class Singleton3 {
         private static Singleton3 instance;
-        private Singleton3(){
+
+        private Singleton3() {
         }
 
         public static synchronized Singleton3 getInstance() {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new Singleton3();
             } else {
                 System.out.println("Error: Second Singleton!");
                 System.exit(1);
             }
+            return instance;
+        }
+    }
+
+    /**
+     * С использованием "Double-Checked Locking" и модификатором "volatile" - решает проблему отбирания
+     * времени синхронизацией.
+     * Но использование "volatile" модификатора может привести к проблемам производительности
+     * на мультипроцессорных системах.
+     */
+    private static class Singleton4 {
+        private static volatile Singleton4 instance;
+
+        private Singleton4() {
+        }
+
+        public static Singleton4 getInstance() {
+            if (instance == null)
+                synchronized (Singleton4.class) {
+                    if (instance == null)
+                        instance = new Singleton4();
+                }
             return instance;
         }
     }
