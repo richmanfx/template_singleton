@@ -1,0 +1,32 @@
+group 'ru.r5am'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'ru.r5am.SingletonUse'
+
+[ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+// Кастомизация выходного JAR-файла
+jar {
+    baseName = 'SingletonUse'				// Название jar-файла на выходе
+    manifest {							// В файл MANIFEST.MF
+        attributes(
+                "Generated-By": "Gradle",
+                "Main-Class": mainClassName,
+                "Built-By": "Александр Ящук (Aleksandr Jashhuk), R5AM",
+                // "Class-Path": "library/help-share.jar library/jewt.jar "
+        )
+    }
+}
